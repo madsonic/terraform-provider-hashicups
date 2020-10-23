@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "hashicups" {
-  username = "dos"
+  username = "education"
   password = "test123"
 }
 
