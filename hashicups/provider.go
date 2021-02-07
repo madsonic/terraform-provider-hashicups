@@ -28,6 +28,7 @@ func Provider() *schema.Provider {
 		DataSourcesMap: map[string]*schema.Resource{
 			"hashicups_coffees": dataSourceCoffees(),
 		},
+		ConfigureContextFunc: providerConfigure,
 	}
 }
 
