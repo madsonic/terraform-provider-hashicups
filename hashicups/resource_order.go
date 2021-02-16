@@ -125,6 +125,8 @@ func resourceOrderRead(ctx context.Context, d *schema.ResourceData, m interface{
 	return diags
 }
 
+// Tip: The hasChange() function enables you to invoke different APIs or build a targeted request body to update your resource when a specific property changes.
+// Note: Update functions rarely update the resource ID. However, if the ID becomes blank during the update process, the provider assumes the resource is destroyed and all state is removed.
 func resourceOrderUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*hc.Client)
 
@@ -159,8 +161,22 @@ func resourceOrderUpdate(ctx context.Context, d *schema.ResourceData, m interfac
 	return resourceOrderRead(ctx, d, m)
 }
 
+// The destroy callback should never update any state on the resource. In addition, the destroy callback should always handle the case where the resource might already be destroyed. If the resource is already destroyed, the destroy function should not return an error. If the target API doesn't have this functionality, the destroy function should verify the resource exists; if the resource does not exist, set the resource ID to "". This behavior allows Terraform users to manually delete resources without breaking Terraform.
 func resourceOrderDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
+
+	c := m.(*hc.Client)
+
+	orderID := d.Id()
+
+	err := c.DeleteOrder(orderID)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	// d.SetId("") is automatically called assuming delete returns no errors, but
+	// it is added here for explicitness.
+	d.SetId("")
 
 	return diags
 }

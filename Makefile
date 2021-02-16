@@ -3,7 +3,7 @@ HOSTNAME=hashicorp.com
 NAMESPACE=edu
 NAME=hashicups
 BINARY=terraform-provider-${NAME}
-VERSION=0.3.4
+VERSION=0.3.5
 OS_ARCH=darwin_amd64
 
 default: install
